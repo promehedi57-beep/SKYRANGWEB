@@ -8,8 +8,8 @@ app = FastAPI()
 # ======================== API কনফিগারেশন ========================
 # 🟢 MNIT API CONFIG (একমাত্র প্যানেল)
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
-MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzcxMTIyMjcsImNyZWF0ZWQiOjE3NzcwMjU4MjcsIjJvbzkiOiJNc0giLCJleHAiOjE3NzcxMTIyMjcsImlhdCI6MTc3NzAyNTgyNywic3ViIjoiTV9JNFZBN0ZFNlIifQ.U0a_fYHXwSDy3LlKKc9QPrYrZ-gyFobpal-aGZxS_jQ"
-MNIT_COOKIE = "cf_clearance=.hi8mAX0mx3kwqp7HIjlGxIsdtXTvYtcOILvkJRjrH4-1777025822-1.2.1.1-PoM1woh2ALsl66iAo96cKKw5.7bMeeob4EoL7G7OSgKA7O.ErTnwJW1kMsC1P..bjxiWFHiiBN4ctveEqv8aXdsXQ.FjOiCS_1kCdBJ7gbcw3yapMVKIjlJGMlHsria2TKGxwZEX479I7dt3fbiWtf5i7vniph5Y7y69NdT7RN.prqogv_MmqJLBqR7LuJQaKbGkUF5CS6PVmcfchUDVhLU6727ZtmpKwRyCOIragIGYWyfb1TJwVmGJms72pusjgR71xh3LWRbow3Lqs.twsBbLW_a46yQvjDHw.tQjY3q7uvNUauII3.CGu2WL.pqlDynJBLuDUbkGyHFiIdbkVQ; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzcxMTIyMjcsImNyZWF0ZWQiOjE3NzcwMjU4MjcsIjJvbzkiOiJNc0giLCJleHAiOjE3NzcxMTIyMjcsImlhdCI6MTc3NzAyNTgyNywic3ViIjoiTV9JNFZBN0ZFNlIifQ.U0a_fYHXwSDy3LlKKc9QPrYrZ-gyFobpal-aGZxS_jQ; TawkConnectionTime=0; twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5fNn3B3jtPb5VwJIV72bULtbVrmIGVECkvIdlVtObmwTts0jfxpP7wOqftlRphv8hGSHEouYvyMG8KX6vsSezC5RRocZQO3z6AWCeEWJFEAETJ73gSnDcqX%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777038143512%7D"
+MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzcyMTQ3ODIsImNyZWF0ZWQiOjE3NzcxMjgzODIsIjJvbzkiOiJNc0giLCJleHAiOjE3NzcyMTQ3ODIsImlhdCI6MTc3NzEyODM4Miwic3ViIjoiTV9JNFZBN0ZFNlIifQ.cn4AZ7MArDkJLWLUJO6MOBve4Aqzb4Cyc1145svGumo"
+MNIT_COOKIE = "twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5fNn3B3jtPb5VwJIV72bULtbVrmIGVECkvIdlVtObmwTts0jfxpP7wOqftlRphv8hGSHEouYvyMG8KX6vsSezC5RRocZQO3z6AWCeEWJFEAETJ73gSnDcqX%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777038438038%7D; cf_clearance=Im_JMamglP0ewls_GdN3n8kg3rxTLWhVpn2LcY2Gv_4-1777128379-1.2.1.1-BWTlwmlscUO8QceZlmeNs8KIBSMmSwUB36tOC6drQExYYZudplMBRbMJrMAPBpaeESN2.ixO_ux5.oZ7ae9uCTC9S8eY.1fBTu12BBfAvVGXg7ByYTTdhfYpm76omGPjOIhiPJD674ahfRXTAYymucmMMDhTi7o9lGHQqOV6AOXv1BAEwifkGjS9ZYbSG3a7rkY_.jLTvA6b8IGol8M65jDzwnH3bLzXfm83GqI.rkH3bIIBwu5dAKTY_tIy_5M2ndn6wWgIIQ49_87mFSMim.xStA7wA._ouMe_BTPKHD9UEvWVM9ov4heHOJEaK.xuoW7_vM316jidfUhDlyq9cA; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzcyMTQ3ODIsImNyZWF0ZWQiOjE3NzcxMjgzODIsIjJvbzkiOiJNc0giLCJleHAiOjE3NzcyMTQ3ODIsImlhdCI6MTc3NzEyODM4Miwic3ViIjoiTV9JNFZBN0ZFNlIifQ.cn4AZ7MArDkJLWLUJO6MOBve4Aqzb4Cyc1145svGumo"
 
 # ======================== Data Fetching Logic ========================
 async def fetch_mnit(client):
@@ -281,4 +281,3 @@ INDEX_HTML = """
     </script>
 </body>
 </html>
-"""
