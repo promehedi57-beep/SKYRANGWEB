@@ -13,7 +13,7 @@ MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
 MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc2MTM2NTUsImNyZWF0ZWQiOjE3Nzc1MjcyNTUsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc2MTM2NTUsImlhdCI6MTc3NzUyNzI1NSwic3ViIjoiTV9JNFZBN0ZFNlIifQ.WBRSroeKc4cfDZpvw-5d2Y6UUozvsCqMDhmgKw_TLGs"
 
 # আপনার দেওয়া নতুন Cookie আপডেট করা হয়েছে
-MNIT_COOKIE = "cf_clearance=xZPcoh3pmPI5Bk_NdQj3SlnaGEHhfVnzrZHefJrwDi4-1777527247-1.2.1.1-TjoVfV_BgtNeYRsjyN86EBcSGTjSg0TkUzoZ0cE6yDQlHk_tUPQw_TW6mr_hBL0xYfkxHtEKtrDr6BuEwHyuTOE_sRzuvUsUQWgYt0alp1XbcnX9oz5E2gLMfIZAKW1.VnJXLJ8XQatKbiJ.ToFqO3zVv12eg6FHvLGKWSvbkzZzsXWFHAWsPWf28B0s5Id7GoIbfCrJlVk56ZbwY9CTaXZZdkR6T2eeLe0GXvtHSBzqdhU2FgSZvQ4as610yLE7vdumS16yscGFwNcD.Rve5qaV09.ZaRqzrcW3ScIka7B4m0AiJ0tPyyz4xQCwSRo5IdAvG41ABhjz4CEOyVLyEg; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc2MTM2NTUsImNyZWF0ZWQiOjE3Nzc1MjcyNTUsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc2MTM2NTUsImlhdCI6MTc3NzUyNzI1NSwic3ViIjoiTV9JNFZBN0ZFNlIifQ.WBRSroeKc4cfDZpvw-5d2Y6UUozvsCqMDhmgKw_TLGs"
+MNIT_COOKIE = "mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc2MTM2NTUsImNyZWF0ZWQiOjE3Nzc1MjcyNTUsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc2MTM2NTUsImlhdCI6MTc3NzUyNzI1NSwic3ViIjoiTV9JNFZBN0ZFNlIifQ.WBRSroeKc4cfDZpvw-5d2Y6UUozvsCqMDhmgKw_TLGs; cf_clearance=zyPajiJj1atTgqA183rXNRRHGHtF4LnPSsmR10MqCp8-1777563104-1.2.1.1-uYo3rGxAk.xS5BW4hzEsUI1hgTpCuwEQoXv7Iy7n7_QvgdwQ8AigIYTA7LFfEqnYUvQvH94V.ZnzfrLRrguCpe.De0H_4TCQ2s15vTA3QK4bSP9_.Fk3rQm7LjOQyMLk4ZC0jswv3pc3gUKzAFd3Nt_0OHq..sgOmQLtR8QOWoiKqLjJden7nfaMe3N9SBXPCqEZDgUsE.GdjGOvJJtFCorcBvBU8525bxjDkuXRGZZ2cptPmqCrAPMk46JSVbcJVvWJXEpTXOnKwi4nvLjT_Wxovg9sY_dwHmwKDZgh5lvMheGU7Eli87zwO_Q18.wCw6z2Ml12AFamhBKWYKyncQ; TawkConnectionTime=0; twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777563105639%7D"
 
 # ======================== Data Fetching Logic ========================
 async def fetch_mnit(client):
@@ -32,7 +32,8 @@ async def fetch_mnit(client):
             if logs:
                 for l in logs: l['sys_node'] = "mnit"
                 return logs[:100] # ১০০ টা ডেটা নিয়ে আসবে
-    except Exception:
+    except Exception as e:
+        print(f"Error fetching data: {e}")
         pass
     return []
 
