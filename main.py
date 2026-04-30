@@ -68,7 +68,7 @@ INDEX_HTML = """
             --text-main: #f8fafc; 
             --text-muted: #94a3b8; 
             --accent: #00f2fe; 
-            --panel-color: #10b981; /* NEON GREEN */
+            --panel-color: #10b981; 
         }
         
         body { 
@@ -102,7 +102,6 @@ INDEX_HTML = """
         .filter-btn.active { background: rgba(0, 242, 254, 0.15); color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); }
         .btn-high-power { background: linear-gradient(135deg, #ff0844, #ffb199); color: white !important; border: none; font-weight: 900; box-shadow: 0 0 20px rgba(255, 8, 68, 0.5); }
         
-        /* 🟢 SINGLE LAYOUT (MAKING IT CENTERED & WIDE) */
         .main-container { display: flex; flex-direction: column; gap: 30px; padding: 0 30px 60px 30px; max-width: 900px; margin: 0 auto;}
         
         .panel-box { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); }
@@ -111,7 +110,13 @@ INDEX_HTML = """
         
         .column-content { display: flex; flex-direction: column; gap: 20px; }
 
-        .range-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; transition: all 0.3s; position: relative; overflow: hidden; backdrop-filter: blur(10px); border-left: 5px solid var(--panel-color); }
+        /* 🟢 স্মুথ এনিমেশন যোগ করা হয়েছে */
+        @keyframes slideInDown {
+            0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .range-card { animation: slideInDown 0.4s ease-out forwards; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; transition: all 0.3s; position: relative; overflow: hidden; backdrop-filter: blur(10px); border-left: 5px solid var(--panel-color); }
         .range-card:hover { transform: translateY(-5px) scale(1.02); z-index: 10; background: rgba(17, 24, 39, 0.9); border-color: var(--panel-color); box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.3); }
         
         .high-power-card { background: linear-gradient(145deg, rgba(30, 10, 15, 0.9), rgba(67, 20, 30, 0.6)) !important; border: 1px solid rgba(255, 8, 68, 0.4) !important; border-left: 5px solid #ff0844 !important;}
@@ -171,12 +176,15 @@ INDEX_HTML = """
 
     <script>
         let currentTab = 'all';
+        let lastKnownLogs = [];  // 🟢 আগের ডেটা সেভ রাখার জন্য ভেরিয়েবল
+        let previousHTML = "";   // 🟢 স্ক্রিন শুধু দরকার হলেই আপডেট করার জন্য
 
         function switchTab(tab) {
             currentTab = tab;
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            fetchData();
+            previousHTML = ""; // ট্যাব বদলালে ফ্রেশ রেন্ডার হবে
+            renderData(lastKnownLogs);
         }
 
         function copyText(text) {
@@ -192,8 +200,19 @@ INDEX_HTML = """
             try {
                 const response = await fetch('/api/logs');
                 const logs = await response.json();
-                renderData(logs);
-            } catch (err) { console.error("API ERROR", err); }
+                
+                // 🟢 যদি API থেকে ঠিকমতো ডেটা আসে, তবেই ভেরিয়েবল আপডেট হবে।
+                if (logs && logs.length > 0) {
+                    lastKnownLogs = logs;
+                }
+                
+                // 🟢 সব সময় Last Known Data রেন্ডার করবে (ফাঁকা হবে না)
+                renderData(lastKnownLogs);
+            } catch (err) { 
+                console.error("API ERROR", err); 
+                // 🟢 ইন্টারনেট বা সার্ভার সমস্যা হলেও আগের ডেটা স্ক্রিন থেকে হারাবে না
+                renderData(lastKnownLogs);
+            }
         }
 
         function formatNumberToRange(val) {
@@ -242,8 +261,12 @@ INDEX_HTML = """
             const mainCol = document.getElementById('main-data-col');
             let htmlContent = '';
 
+            // 🟢 যদি আসলেই জীবনেও কোনো ডেটা না পেয়ে থাকে, তবেই নো ডেটা দেখাবে
             if(!logs || logs.length === 0) {
-                mainCol.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">NO ACTIVE DATA FOUND</p>';
+                if (previousHTML !== 'empty') {
+                    mainCol.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">WAITING FOR ACTIVE DATA...</p>';
+                    previousHTML = 'empty';
+                }
                 return;
             }
 
@@ -278,11 +301,16 @@ INDEX_HTML = """
                 });
             }
 
-            mainCol.innerHTML = htmlContent || '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">NO DATA MATCHES THIS FILTER</p>';
+            // 🟢 শুধুমাত্র তখনই ব্রাউজার আপডেট হবে যখন নতুন ডেটা আসবে বা চেঞ্জ হবে (এতে ফ্লিকারিং বন্ধ হবে)
+            const finalHtml = htmlContent || '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">NO DATA MATCHES THIS FILTER</p>';
+            if (finalHtml !== previousHTML) {
+                mainCol.innerHTML = finalHtml;
+                previousHTML = finalHtml;
+            }
         }
         
         setInterval(fetchData, 5000); 
-        fetchData();
+        fetchData(); // পেজ লোড হলেই সাথে সাথে ডেটা কল করবে
     </script>
 </body>
 </html>
