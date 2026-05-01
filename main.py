@@ -9,11 +9,11 @@ app = FastAPI()
 # 🟢 MNIT API CONFIG (একমাত্র প্যানেল)
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
 
-# আপনার দেওয়া নতুন Mauthtoken আপডেট করা হয়েছে
-MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc2MTM2NTUsImNyZWF0ZWQiOjE3Nzc1MjcyNTUsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc2MTM2NTUsImlhdCI6MTc3NzUyNzI1NSwic3ViIjoiTV9JNFZBN0ZFNlIifQ.WBRSroeKc4cfDZpvw-5d2Y6UUozvsCqMDhmgKw_TLGs"
+# 🟢 আপনার দেওয়া নতুন Mauthtoken আপডেট করা হয়েছে
+MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc3MDk5MzMsImNyZWF0ZWQiOjE3Nzc2MjM1MzMsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc3MDk5MzMsImlhdCI6MTc3NzYyMzUzMywic3ViIjoiTV9JNFZBN0ZFNlIifQ.6iiLj19O7X3-qFxmVX1gdPUj11Ed0UfGI9yyTJ3iG3A"
 
-# আপনার দেওয়া নতুন Cookie আপডেট করা হয়েছে
-MNIT_COOKIE = "mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc2MTM2NTUsImNyZWF0ZWQiOjE3Nzc1MjcyNTUsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc2MTM2NTUsImlhdCI6MTc3NzUyNzI1NSwic3ViIjoiTV9JNFZBN0ZFNlIifQ.WBRSroeKc4cfDZpvw-5d2Y6UUozvsCqMDhmgKw_TLGs; cf_clearance=zyPajiJj1atTgqA183rXNRRHGHtF4LnPSsmR10MqCp8-1777563104-1.2.1.1-uYo3rGxAk.xS5BW4hzEsUI1hgTpCuwEQoXv7Iy7n7_QvgdwQ8AigIYTA7LFfEqnYUvQvH94V.ZnzfrLRrguCpe.De0H_4TCQ2s15vTA3QK4bSP9_.Fk3rQm7LjOQyMLk4ZC0jswv3pc3gUKzAFd3Nt_0OHq..sgOmQLtR8QOWoiKqLjJden7nfaMe3N9SBXPCqEZDgUsE.GdjGOvJJtFCorcBvBU8525bxjDkuXRGZZ2cptPmqCrAPMk46JSVbcJVvWJXEpTXOnKwi4nvLjT_Wxovg9sY_dwHmwKDZgh5lvMheGU7Eli87zwO_Q18.wCw6z2Ml12AFamhBKWYKyncQ; TawkConnectionTime=0; twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777563105639%7D"
+# 🟢 আপনার দেওয়া নতুন Cookie আপডেট করা হয়েছে
+MNIT_COOKIE = "twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777563105639%7D; cf_clearance=2ddhysB7KPiInxyYfpoEAQczHA1DubghniA9FhX7Jpw-1777623530-1.2.1.1-ZEJJSDeiJ9E9lDYneb.szyaJWCpQ.2fLuwo__1QZ30bRtj.8P2cwbP5krMgRdYdXPqp6fVj94siYwzLHIkaXDB_YHGT7Pj3euIDDJzTKe4Y3Cusa7ZApDT82RrrglaZLSkdqrOGOx9Cn5QUGBr_M71hF9.KmYo4v0e_AfgNh65.DXQ0k9OKI2S4TGMb1pxXbFjDBuOfQWHcdWV9bYuXhRlFqF6IC9r0970jLZFn8Lz3LSYGQeZYix4PvqA_X5yZ4AWEkdIzbuMbZsPgLsPqoqfRE7n9.JRIJFrdj4B9dLp0.eEqJrvNpwLVfPecepQG9P0WN9Nwr58P_q8wDmeX9gw; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc3MDk5MzMsImNyZWF0ZWQiOjE3Nzc2MjM1MzMsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc3MDk5MzMsImlhdCI6MTc3NzYyMzUzMywic3ViIjoiTV9JNFZBN0ZFNlIifQ.6iiLj19O7X3-qFxmVX1gdPUj11Ed0UfGI9yyTJ3iG3A"
 
 # ======================== Data Fetching Logic ========================
 async def fetch_mnit(client):
