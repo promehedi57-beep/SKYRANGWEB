@@ -7,12 +7,12 @@ from playwright.async_api import async_playwright
 app = FastAPI()
 
 # ======================== অটোমেশন কনফিগারেশন ========================
-# 🟢 আপনার প্যানেলের লগইন তথ্য এখানে দিন
-LOGIN_URL = "https://x.mnitnetwork.com/" # লগইন পেজের লিংক
-USERNAME = "skyofficialbot1@gmail.com"          # আপনার ইউজারনেম
-PASSWORD = "shakauth@10"          # আপনার পাসওয়ার্ড
+# 🟢 আপনার প্যানেলের লগইন তথ্য এখানে দিন (খুবই গুরুত্বপূর্ণ)
+LOGIN_URL = "https://x.mnitnetwork.com/" 
+USERNAME = "skyofficialbot1@gmail.com"  # আপনার আসল ইউজারনেম এখানে দিন
+PASSWORD = "shakauth@10"  # আপনার আসল পাসওয়ার্ড এখানে দিন
 
-# ডাইনামিক ভেরিয়েবল (এগুলো এখন ফাঁকা থাকবে, বট নিজে পূরণ করবে)
+# ডাইনামিক ভেরিয়েবল (এগুলো অটোমেটিক আপডেট হবে)
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
 MNIT_MAUTH_TOKEN = ""
 MNIT_COOKIE = ""
@@ -23,7 +23,6 @@ async def auto_login_and_get_tokens():
     print("🤖 অটো-লগইন সিস্টেম চালু হচ্ছে...")
     
     async with async_playwright() as p:
-        # যদি Cloudflare ধরে, তবে headless=False করে প্রথমবার ম্যানুয়ালি সলভ করতে পারেন
         browser = await p.chromium.launch(headless=True) 
         context = await browser.new_context(
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -34,14 +33,13 @@ async def auto_login_and_get_tokens():
             print("🌐 লগইন পেজে যাচ্ছে...")
             await page.goto(LOGIN_URL, timeout=60000)
             
-            await page.fill("input[name='username']", USERNAME) # ইউজারনেম বক্স
-            await page.fill("input[name='password']", PASSWORD) # পাসওয়ার্ড বক্স
-            await page.click("button[type='submit']")           # লগইন বাটন
+            await page.fill("input[name='username']", USERNAME)
+            await page.fill("input[name='password']", PASSWORD)
+            await page.click("button[type='submit']")
             
             print("⏳ ড্যাশবোর্ড লোড হওয়ার জন্য অপেক্ষা করছে...")
             await page.wait_for_url("**/mdashboard/console", timeout=30000)
             
-            # কুকি সংগ্রহ
             cookies = await context.cookies()
             cookie_list = []
             for c in cookies:
@@ -57,11 +55,10 @@ async def auto_login_and_get_tokens():
         finally:
             await browser.close()
 
-# কোড চালু হওয়ার সাথে সাথে একবার লগইন করবে এবং প্রতি ২ ঘণ্টায় রিফ্রেশ করবে
 async def token_refresher():
     while True:
         await auto_login_and_get_tokens()
-        await asyncio.sleep(7200) # ২ ঘণ্টা (৭২০০ সেকেন্ড)
+        await asyncio.sleep(7200) 
 
 @app.on_event("startup")
 async def startup_event():
@@ -70,7 +67,8 @@ async def startup_event():
 # ======================== Data Fetching Logic ========================
 async def fetch_mnit(client):
     if not MNIT_COOKIE or not MNIT_MAUTH_TOKEN:
-        return [] # টোকেন না আসা পর্যন্ত অপেক্ষা করবে
+        print("⚠️ টোকেন এখনো রেডি হয়নি...")
+        return []
         
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
@@ -94,18 +92,20 @@ async def fetch_mnit(client):
 # ======================== API Endpoints ========================
 @app.get("/api/logs")
 async def get_logs():
-    try:
-        async with httpx.AsyncClient() as client:
-            mnit_logs = await fetch_mnit(client)
-            return mnit_logs if mnit_logs else []
-    except Exception:
-        return []
+    async with httpx.AsyncClient() as client:
+        mnit_logs = await fetch_mnit(client)
+        return mnit_logs if mnit_logs else []
+
+@app.get("/api/debug")
+async def debug_logs():
+    async with httpx.AsyncClient() as client:
+        return await fetch_mnit(client)
 
 @app.get("/")
 def read_root():
     return HTMLResponse(content=INDEX_HTML)
 
-# ======================== ULTIMATE PREMIUM UI ========================
+# ======================== ULTIMATE PREMIUM UI (FULL FEATURES) ========================
 INDEX_HTML = """
 <!DOCTYPE html>
 <html lang="en">
@@ -219,7 +219,7 @@ INDEX_HTML = """
         <div class="panel-box">
             <div class="column-header">🟢 SECURE PANEL [ LIVE DATA ]</div>
             <div class="column-content" id="main-data-col">
-                <p style="text-align:center; color: #10b981; font-weight:bold; letter-spacing:2px;">SCANNING DATA...</p>
+                <p style="text-align:center; color: #10b981; font-weight:bold; letter-spacing:2px;">WAITING FOR ACTIVE DATA OR LOGGING IN...</p>
             </div>
         </div>
     </div>
