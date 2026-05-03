@@ -10,10 +10,10 @@ app = FastAPI()
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
 
 # 🟢 আপনার দেওয়া নতুন Mauthtoken আপডেট করা হয়েছে
-MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc3MDk5MzMsImNyZWF0ZWQiOjE3Nzc2MjM1MzMsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc3MDk5MzMsImlhdCI6MTc3NzYyMzUzMywic3ViIjoiTV9JNFZBN0ZFNlIifQ.6iiLj19O7X3-qFxmVX1gdPUj11Ed0UfGI9yyTJ3iG3A"
+MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc4NTg3MzcsImNyZWF0ZWQiOjE3Nzc3NzIzMzcsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc4NTg3MzcsImlhdCI6MTc3Nzc3MjMzNywic3ViIjoiTV9JNFZBN0ZFNlIifQ.pywpugEzyQslLV8yj1FsGlbwoihL5g8KOeRJ5P7Q0Fw"
 
 # 🟢 আপনার দেওয়া নতুন Cookie আপডেট করা হয়েছে
-MNIT_COOKIE = "twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777563105639%7D; cf_clearance=2ddhysB7KPiInxyYfpoEAQczHA1DubghniA9FhX7Jpw-1777623530-1.2.1.1-ZEJJSDeiJ9E9lDYneb.szyaJWCpQ.2fLuwo__1QZ30bRtj.8P2cwbP5krMgRdYdXPqp6fVj94siYwzLHIkaXDB_YHGT7Pj3euIDDJzTKe4Y3Cusa7ZApDT82RrrglaZLSkdqrOGOx9Cn5QUGBr_M71hF9.KmYo4v0e_AfgNh65.DXQ0k9OKI2S4TGMb1pxXbFjDBuOfQWHcdWV9bYuXhRlFqF6IC9r0970jLZFn8Lz3LSYGQeZYix4PvqA_X5yZ4AWEkdIzbuMbZsPgLsPqoqfRE7n9.JRIJFrdj4B9dLp0.eEqJrvNpwLVfPecepQG9P0WN9Nwr58P_q8wDmeX9gw; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc3MDk5MzMsImNyZWF0ZWQiOjE3Nzc2MjM1MzMsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc3MDk5MzMsImlhdCI6MTc3NzYyMzUzMywic3ViIjoiTV9JNFZBN0ZFNlIifQ.6iiLj19O7X3-qFxmVX1gdPUj11Ed0UfGI9yyTJ3iG3A"
+MNIT_COOKIE = "twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777563105639%7D; cf_clearance=DAq6Ox8xU8QkCs0GXabgox1TzQW8XopsZJwKHQz7dOQ-1777772333-1.2.1.1-VRwYWC_v.Nzr3wAe1ejpwraoEotEUIBnimjIo14QJK_HAy6kNtTlJnHbGmyYNLcOGFHrudreDzszy_NFhwcUXMLrDVzroxo2zDdecV8pQWVilSazFsjXNiiCEeRRuQV5ZPgfcIhAlX82JbKKl1Frtp68bPDQX.Pvy9Cl94n50TjJWZ_5FBXSp2uZ2Uo7rnSR2CqqN0Lvb9krSjucrPMOpW8gsz1lAzj_5QKftbP1.DqQ28vbEjy_e66EtoUGlysx_Z2SqsHjSRn1YUrnk4cTBd_jCIjD2JM9xzMbutgBgpcZHA9lBJAy0_gVnxyxQ_.94vq.pMpCgKnRQ9x2ylT1mw; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc4NTg3MzcsImNyZWF0ZWQiOjE3Nzc3NzIzMzcsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc4NTg3MzcsImlhdCI6MTc3Nzc3MjMzNywic3ViIjoiTV9JNFZBN0ZFNlIifQ.pywpugEzyQslLV8yj1FsGlbwoihL5g8KOeRJ5P7Q0Fw"
 
 # ======================== Data Fetching Logic ========================
 async def fetch_mnit(client):
@@ -206,7 +206,7 @@ INDEX_HTML = """
                     lastKnownLogs = logs;
                 }
                 
-                // 🟢 সব সময় Last Known Data রেন্ডার করবে (ফাঁকা হবে না)
+                // 🟢 সব সময় Last Known Data রেন্ডার করবে (ফাঁকা হবেবিধা হবে না)
                 renderData(lastKnownLogs);
             } catch (err) { 
                 console.error("API ERROR", err); 
