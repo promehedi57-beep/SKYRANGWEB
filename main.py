@@ -7,10 +7,10 @@ from playwright.async_api import async_playwright
 app = FastAPI()
 
 # ======================== অটোমেশন কনফিগারেশন ========================
-# 🟢 আপনার প্যানেলের লগইন তথ্য এখানে দিন (খুবই গুরুত্বপূর্ণ)
+# 🟢 আপনার দেওয়া লগইন তথ্য এখানে বসানো হয়েছে
 LOGIN_URL = "https://x.mnitnetwork.com/" 
-USERNAME = "skyofficialbot1@gmail.com"  # আপনার আসল ইউজারনেম এখানে দিন
-PASSWORD = "shakauth@10"  # আপনার আসল পাসওয়ার্ড এখানে দিন
+USERNAME = "skyofficialbot1@gmail.com"  
+PASSWORD = "Shakauth@10"                
 
 # ডাইনামিক ভেরিয়েবল (এগুলো অটোমেটিক আপডেট হবে)
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
@@ -33,6 +33,7 @@ async def auto_login_and_get_tokens():
             print("🌐 লগইন পেজে যাচ্ছে...")
             await page.goto(LOGIN_URL, timeout=60000)
             
+            # আপনার প্যানেলের ইনপুট ফিল্ড অনুযায়ী ডেটা বসানো
             await page.fill("input[name='username']", USERNAME)
             await page.fill("input[name='password']", PASSWORD)
             await page.click("button[type='submit']")
