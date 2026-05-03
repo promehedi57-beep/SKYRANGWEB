@@ -2,23 +2,78 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 import httpx
 import asyncio
+from playwright.async_api import async_playwright
 
 app = FastAPI()
 
-# ======================== API কনফিগারেশন ========================
-# 🟢 MNIT API CONFIG (একমাত্র প্যানেল)
+# ======================== অটোমেশন কনফিগারেশন ========================
+# 🟢 আপনার প্যানেলের লগইন তথ্য এখানে দিন
+LOGIN_URL = "https://x.mnitnetwork.com/" # লগইন পেজের লিংক
+USERNAME = "skyofficialbot1@gmail.com"          # আপনার ইউজারনেম
+PASSWORD = "shakauth@10"          # আপনার পাসওয়ার্ড
+
+# ডাইনামিক ভেরিয়েবল (এগুলো এখন ফাঁকা থাকবে, বট নিজে পূরণ করবে)
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
+MNIT_MAUTH_TOKEN = ""
+MNIT_COOKIE = ""
 
-# 🟢 আপনার দেওয়া নতুন Mauthtoken আপডেট করা হয়েছে
-MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc4NTg3MzcsImNyZWF0ZWQiOjE3Nzc3NzIzMzcsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc4NTg3MzcsImlhdCI6MTc3Nzc3MjMzNywic3ViIjoiTV9JNFZBN0ZFNlIifQ.pywpugEzyQslLV8yj1FsGlbwoihL5g8KOeRJ5P7Q0Fw"
+# ======================== Playwright অটো-লগইন সিস্টেম ========================
+async def auto_login_and_get_tokens():
+    global MNIT_MAUTH_TOKEN, MNIT_COOKIE
+    print("🤖 অটো-লগইন সিস্টেম চালু হচ্ছে...")
+    
+    async with async_playwright() as p:
+        # যদি Cloudflare ধরে, তবে headless=False করে প্রথমবার ম্যানুয়ালি সলভ করতে পারেন
+        browser = await p.chromium.launch(headless=True) 
+        context = await browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        )
+        page = await context.new_page()
 
-# 🟢 আপনার দেওয়া নতুন Cookie আপডেট করা হয়েছে
-MNIT_COOKIE = "twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777563105639%7D; cf_clearance=DAq6Ox8xU8QkCs0GXabgox1TzQW8XopsZJwKHQz7dOQ-1777772333-1.2.1.1-VRwYWC_v.Nzr3wAe1ejpwraoEotEUIBnimjIo14QJK_HAy6kNtTlJnHbGmyYNLcOGFHrudreDzszy_NFhwcUXMLrDVzroxo2zDdecV8pQWVilSazFsjXNiiCEeRRuQV5ZPgfcIhAlX82JbKKl1Frtp68bPDQX.Pvy9Cl94n50TjJWZ_5FBXSp2uZ2Uo7rnSR2CqqN0Lvb9krSjucrPMOpW8gsz1lAzj_5QKftbP1.DqQ28vbEjy_e66EtoUGlysx_Z2SqsHjSRn1YUrnk4cTBd_jCIjD2JM9xzMbutgBgpcZHA9lBJAy0_gVnxyxQ_.94vq.pMpCgKnRQ9x2ylT1mw; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc4NTg3MzcsImNyZWF0ZWQiOjE3Nzc3NzIzMzcsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc4NTg3MzcsImlhdCI6MTc3Nzc3MjMzNywic3ViIjoiTV9JNFZBN0ZFNlIifQ.pywpugEzyQslLV8yj1FsGlbwoihL5g8KOeRJ5P7Q0Fw"
+        try:
+            print("🌐 লগইন পেজে যাচ্ছে...")
+            await page.goto(LOGIN_URL, timeout=60000)
+            
+            await page.fill("input[name='username']", USERNAME) # ইউজারনেম বক্স
+            await page.fill("input[name='password']", PASSWORD) # পাসওয়ার্ড বক্স
+            await page.click("button[type='submit']")           # লগইন বাটন
+            
+            print("⏳ ড্যাশবোর্ড লোড হওয়ার জন্য অপেক্ষা করছে...")
+            await page.wait_for_url("**/mdashboard/console", timeout=30000)
+            
+            # কুকি সংগ্রহ
+            cookies = await context.cookies()
+            cookie_list = []
+            for c in cookies:
+                cookie_list.append(f"{c['name']}={c['value']}")
+                if c['name'] == 'mauthtoken':
+                    MNIT_MAUTH_TOKEN = c['value']
+            
+            MNIT_COOKIE = "; ".join(cookie_list)
+            print("✅ কুকি এবং টোকেন সফলভাবে সংগ্রহ করা হয়েছে!")
+
+        except Exception as e:
+            print(f"❌ অটো-লগইন ব্যর্থ হয়েছে: {e}")
+        finally:
+            await browser.close()
+
+# কোড চালু হওয়ার সাথে সাথে একবার লগইন করবে এবং প্রতি ২ ঘণ্টায় রিফ্রেশ করবে
+async def token_refresher():
+    while True:
+        await auto_login_and_get_tokens()
+        await asyncio.sleep(7200) # ২ ঘণ্টা (৭২০০ সেকেন্ড)
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(token_refresher())
 
 # ======================== Data Fetching Logic ========================
 async def fetch_mnit(client):
+    if not MNIT_COOKIE or not MNIT_MAUTH_TOKEN:
+        return [] # টোকেন না আসা পর্যন্ত অপেক্ষা করবে
+        
     headers = {
-        "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
         "Accept": "application/json",
         "Mauthtoken": MNIT_MAUTH_TOKEN,
         "Cookie": MNIT_COOKIE,
@@ -31,10 +86,9 @@ async def fetch_mnit(client):
             logs = data.get("data", {}).get("logs", [])
             if logs:
                 for l in logs: l['sys_node'] = "mnit"
-                return logs[:100] # ১০০ টা ডেটা নিয়ে আসবে
+                return logs[:100]
     except Exception as e:
         print(f"Error fetching data: {e}")
-        pass
     return []
 
 # ======================== API Endpoints ========================
@@ -51,7 +105,7 @@ async def get_logs():
 def read_root():
     return HTMLResponse(content=INDEX_HTML)
 
-# ======================== ULTIMATE PREMIUM UI (SINGLE PANEL) ========================
+# ======================== ULTIMATE PREMIUM UI ========================
 INDEX_HTML = """
 <!DOCTYPE html>
 <html lang="en">
@@ -110,7 +164,6 @@ INDEX_HTML = """
         
         .column-content { display: flex; flex-direction: column; gap: 20px; }
 
-        /* 🟢 স্মুথ এনিমেশন যোগ করা হয়েছে */
         @keyframes slideInDown {
             0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -176,14 +229,14 @@ INDEX_HTML = """
 
     <script>
         let currentTab = 'all';
-        let lastKnownLogs = [];  // 🟢 আগের ডেটা সেভ রাখার জন্য ভেরিয়েবল
-        let previousHTML = "";   // 🟢 স্ক্রিন শুধু দরকার হলেই আপডেট করার জন্য
+        let lastKnownLogs = [];  
+        let previousHTML = "";   
 
         function switchTab(tab) {
             currentTab = tab;
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            previousHTML = ""; // ট্যাব বদলালে ফ্রেশ রেন্ডার হবে
+            previousHTML = ""; 
             renderData(lastKnownLogs);
         }
 
@@ -201,16 +254,13 @@ INDEX_HTML = """
                 const response = await fetch('/api/logs');
                 const logs = await response.json();
                 
-                // 🟢 যদি API থেকে ঠিকমতো ডেটা আসে, তবেই ভেরিয়েবল আপডেট হবে।
                 if (logs && logs.length > 0) {
                     lastKnownLogs = logs;
                 }
                 
-                // 🟢 সব সময় Last Known Data রেন্ডার করবে (ফাঁকা হবেবিধা হবে না)
                 renderData(lastKnownLogs);
             } catch (err) { 
                 console.error("API ERROR", err); 
-                // 🟢 ইন্টারনেট বা সার্ভার সমস্যা হলেও আগের ডেটা স্ক্রিন থেকে হারাবে না
                 renderData(lastKnownLogs);
             }
         }
@@ -261,10 +311,9 @@ INDEX_HTML = """
             const mainCol = document.getElementById('main-data-col');
             let htmlContent = '';
 
-            // 🟢 যদি আসলেই জীবনেও কোনো ডেটা না পেয়ে থাকে, তবেই নো ডেটা দেখাবে
             if(!logs || logs.length === 0) {
                 if (previousHTML !== 'empty') {
-                    mainCol.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">WAITING FOR ACTIVE DATA...</p>';
+                    mainCol.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">WAITING FOR ACTIVE DATA OR LOGGING IN...</p>';
                     previousHTML = 'empty';
                 }
                 return;
@@ -301,7 +350,6 @@ INDEX_HTML = """
                 });
             }
 
-            // 🟢 শুধুমাত্র তখনই ব্রাউজার আপডেট হবে যখন নতুন ডেটা আসবে বা চেঞ্জ হবে (এতে ফ্লিকারিং বন্ধ হবে)
             const finalHtml = htmlContent || '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">NO DATA MATCHES THIS FILTER</p>';
             if (finalHtml !== previousHTML) {
                 mainCol.innerHTML = finalHtml;
@@ -310,7 +358,7 @@ INDEX_HTML = """
         }
         
         setInterval(fetchData, 5000); 
-        fetchData(); // পেজ লোড হলেই সাথে সাথে ডেটা কল করবে
+        fetchData(); 
     </script>
 </body>
 </html>
