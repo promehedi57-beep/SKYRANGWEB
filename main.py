@@ -8,10 +8,10 @@ app = FastAPI()
 # ======================== API কনফিগারেশন ========================
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
 
-# 🟢 আপনাদের দেওয়া একদম ফ্রেশ Mauthtoken
+# 🟢 আপনার দেওয়া ফ্রেশ Mauthtoken
 MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc5NDg5NTMsImNyZWF0ZWQiOjE3Nzc4NjI1NTMsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc5NDg5NTMsImlhdCI6MTc3Nzg2MjU1Mywic3ViIjoiTV9JNFZBN0ZFNlIifQ.AylqkSt08RkQH5LK7TXKTRjYOqEeZosGo131kIvK5p4"
 
-# 🟢 আপনাদের দেওয়া একদম ফ্রেশ Cookie
+# 🟢 আপনার দেওয়া ফ্রেশ Cookie
 MNIT_COOKIE = "twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777563105639%7D; cf_clearance=N2ZYuhyZzocFdi4aF1svJkg.REAgnDaCx1i1od7p3Ps-1777862547-1.2.1.1-.RX3efHrfBELxXZPTrBRsj1kU8A6D_AIHL1ZcoHN1oA_YPJ5mj9zr6O0jh3l9QgfVPztJ.77afuYpXuLiyq9dQGcM1odeh1sgkZadxjZh_rxaF.gpPpAwhVzy.u8cwwT2C6.9gxwYV5_ESsaCw9u_rVvVgv6htUg2MZ2q.Nueb3jJTgJDXipuAlE28py6RiGM3.BDoCa5kw4UcdL6c99PT4VlW7K0Ha8fPlQHE1AB5B.fk0A5..yNsbhpLF7b_Kc.Z_DpJsheTN22QTvXnxNFbEoQKK4.wenYEuhQHLcf216v0WEgBCj38h2zCv72P4O8iNlp9eFP7c3_oeFLmiMZg; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc5NDg5NTMsImNyZWF0ZWQiOjE3Nzc4NjI1NTMsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc5NDg5NTMsImlhdCI6MTc3Nzg2MjU1Mywic3ViIjoiTV9JNFZBN0ZFNlIifQ.AylqkSt08RkQH5LK7TXKTRjYOqEeZosGo131kIvK5p4"
 
 # ======================== Data Fetching Logic ========================
