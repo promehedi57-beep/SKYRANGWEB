@@ -6,19 +6,18 @@ import asyncio
 app = FastAPI()
 
 # ======================== API কনফিগারেশন ========================
-# 🟢 MNIT API CONFIG (একমাত্র প্যানেল)
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
 
-# নতুন Mauthtoken আপডেট করা হয়েছে
+# 🟢 আপনাদের দেওয়া একদম ফ্রেশ Mauthtoken
 MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc5NDg5NTMsImNyZWF0ZWQiOjE3Nzc4NjI1NTMsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc5NDg5NTMsImlhdCI6MTc3Nzg2MjU1Mywic3ViIjoiTV9JNFZBN0ZFNlIifQ.AylqkSt08RkQH5LK7TXKTRjYOqEeZosGo131kIvK5p4"
 
-# নতুন Cookie আপডেট করা হয়েছে
+# 🟢 আপনাদের দেওয়া একদম ফ্রেশ Cookie
 MNIT_COOKIE = "twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777563105639%7D; cf_clearance=N2ZYuhyZzocFdi4aF1svJkg.REAgnDaCx1i1od7p3Ps-1777862547-1.2.1.1-.RX3efHrfBELxXZPTrBRsj1kU8A6D_AIHL1ZcoHN1oA_YPJ5mj9zr6O0jh3l9QgfVPztJ.77afuYpXuLiyq9dQGcM1odeh1sgkZadxjZh_rxaF.gpPpAwhVzy.u8cwwT2C6.9gxwYV5_ESsaCw9u_rVvVgv6htUg2MZ2q.Nueb3jJTgJDXipuAlE28py6RiGM3.BDoCa5kw4UcdL6c99PT4VlW7K0Ha8fPlQHE1AB5B.fk0A5..yNsbhpLF7b_Kc.Z_DpJsheTN22QTvXnxNFbEoQKK4.wenYEuhQHLcf216v0WEgBCj38h2zCv72P4O8iNlp9eFP7c3_oeFLmiMZg; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3Nzc5NDg5NTMsImNyZWF0ZWQiOjE3Nzc4NjI1NTMsIjJvbzkiOiJNc0giLCJleHAiOjE3Nzc5NDg5NTMsImlhdCI6MTc3Nzg2MjU1Mywic3ViIjoiTV9JNFZBN0ZFNlIifQ.AylqkSt08RkQH5LK7TXKTRjYOqEeZosGo131kIvK5p4"
 
 # ======================== Data Fetching Logic ========================
 async def fetch_mnit(client):
     headers = {
-        "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0",
         "Accept": "application/json",
         "Mauthtoken": MNIT_MAUTH_TOKEN,
         "Cookie": MNIT_COOKIE,
@@ -31,8 +30,9 @@ async def fetch_mnit(client):
             logs = data.get("data", {}).get("logs", [])
             if logs:
                 for l in logs: l['sys_node'] = "mnit"
-                return logs[:100] # ১০০ টা ডেটা নিয়ে আসবে
-    except Exception:
+                return logs[:100] 
+    except Exception as e:
+        print(f"Error fetching data: {e}")
         pass
     return []
 
@@ -47,6 +47,7 @@ async def get_logs():
         return []
 
 @app.get("/")
+@app.head("/")
 def read_root():
     return HTMLResponse(content=INDEX_HTML)
 
@@ -67,7 +68,7 @@ INDEX_HTML = """
             --text-main: #f8fafc; 
             --text-muted: #94a3b8; 
             --accent: #00f2fe; 
-            --panel-color: #10b981; /* NEON GREEN */
+            --panel-color: #10b981; 
         }
         
         body { 
@@ -101,7 +102,6 @@ INDEX_HTML = """
         .filter-btn.active { background: rgba(0, 242, 254, 0.15); color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); }
         .btn-high-power { background: linear-gradient(135deg, #ff0844, #ffb199); color: white !important; border: none; font-weight: 900; box-shadow: 0 0 20px rgba(255, 8, 68, 0.5); }
         
-        /* 🟢 SINGLE LAYOUT (MAKING IT CENTERED & WIDE) */
         .main-container { display: flex; flex-direction: column; gap: 30px; padding: 0 30px 60px 30px; max-width: 900px; margin: 0 auto;}
         
         .panel-box { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); }
@@ -110,7 +110,12 @@ INDEX_HTML = """
         
         .column-content { display: flex; flex-direction: column; gap: 20px; }
 
-        .range-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; transition: all 0.3s; position: relative; overflow: hidden; backdrop-filter: blur(10px); border-left: 5px solid var(--panel-color); }
+        @keyframes slideInDown {
+            0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .range-card { animation: slideInDown 0.4s ease-out forwards; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; transition: all 0.3s; position: relative; overflow: hidden; backdrop-filter: blur(10px); border-left: 5px solid var(--panel-color); }
         .range-card:hover { transform: translateY(-5px) scale(1.02); z-index: 10; background: rgba(17, 24, 39, 0.9); border-color: var(--panel-color); box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.3); }
         
         .high-power-card { background: linear-gradient(145deg, rgba(30, 10, 15, 0.9), rgba(67, 20, 30, 0.6)) !important; border: 1px solid rgba(255, 8, 68, 0.4) !important; border-left: 5px solid #ff0844 !important;}
@@ -170,12 +175,15 @@ INDEX_HTML = """
 
     <script>
         let currentTab = 'all';
+        let lastKnownLogs = [];
+        let previousHTML = "";
 
         function switchTab(tab) {
             currentTab = tab;
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            fetchData();
+            previousHTML = ""; 
+            renderData(lastKnownLogs);
         }
 
         function copyText(text) {
@@ -191,8 +199,16 @@ INDEX_HTML = """
             try {
                 const response = await fetch('/api/logs');
                 const logs = await response.json();
-                renderData(logs);
-            } catch (err) { console.error("API ERROR", err); }
+                
+                if (logs && logs.length > 0) {
+                    lastKnownLogs = logs;
+                }
+                
+                renderData(lastKnownLogs);
+            } catch (err) { 
+                console.error("API ERROR", err); 
+                renderData(lastKnownLogs);
+            }
         }
 
         function formatNumberToRange(val) {
@@ -242,7 +258,10 @@ INDEX_HTML = """
             let htmlContent = '';
 
             if(!logs || logs.length === 0) {
-                mainCol.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">NO ACTIVE DATA FOUND</p>';
+                if (previousHTML !== 'empty') {
+                    mainCol.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">WAITING FOR ACTIVE DATA...</p>';
+                    previousHTML = 'empty';
+                }
                 return;
             }
 
@@ -277,11 +296,15 @@ INDEX_HTML = """
                 });
             }
 
-            mainCol.innerHTML = htmlContent || '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">NO DATA MATCHES THIS FILTER</p>';
+            const finalHtml = htmlContent || '<p style="text-align:center; color:#94a3b8; font-weight:bold; margin-top:20px;">NO DATA MATCHES THIS FILTER</p>';
+            if (finalHtml !== previousHTML) {
+                mainCol.innerHTML = finalHtml;
+                previousHTML = finalHtml;
+            }
         }
         
         setInterval(fetchData, 5000); 
-        fetchData();
+        fetchData(); 
     </script>
 </body>
 </html>
