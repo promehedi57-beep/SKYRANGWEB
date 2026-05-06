@@ -5,14 +5,14 @@ import asyncio
 
 app = FastAPI()
 
-# ======================== API কনফিগারেশন (আপডেটেড) ========================
+# ======================== API কনফিগারেশন ========================
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
 
-# আপনার দেওয়া লেটেস্ট Mauthtoken
-MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgxMzU2MzMsImNyZWF0ZWQiOjE3NzgwNDkyMzMsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgxMzU2MzMsImlhdCI6MTc3ODA0OTIzMywic3ViIjoiTV9JNFZBN0ZFNlIifQ.ZzNBMANLytxxy48rBSCrhblDZJBGljLqO2DRYYeRRhU"
+# 🟢 আপনাদের দেওয়া একদম ফ্রেশ Mauthtoken
+MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgxMzY4MzIsImNyZWF0ZWQiOjE3NzgwNTA0MzIsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgxMzY4MzIsImlhdCI6MTc3ODA1MDQzMiwic3ViIjoiTV9JNFZBN0ZFNlIifQ.AXl7uXUHJtCC87Z6iYia1BRlLatYX0Gm9uabpaaHYEk"
 
-# আপনার দেওয়া লেটেস্ট Cookie
-MNIT_COOKIE = "cf_clearance=yEWEeLFA5H_AInnsE9d7Yx23QHfA9oVkCzinLQ7ytAU-1778049230-1.2.1.1-awsv246_.euItC16NvLKGUYVKN.ZQFAgT64jjxn0vQtnNF9Bu.pRFVOtVtkTwCfO.njwAKiIv1Cgkbf7urCRIb1QTqhTfDFAfHXz8fb8bLk6L6tKTvkjvTM1QDewfnDrcoEhjsXAjjyyDq24253euf0ALGtdu4jEqY07CWLwPk_lbO38MKqltu0BWE7JHZTy4Oz5_e9x8RMfuxJfpe0Zd9Pamq_Z9N5OsynoTrJ3D9bjHxMBhusHfAtTbNs.IVfN8jg5FCKHNbDGDtwPXrvTss7xZmfdxyYcj8U_otpz7IMndiCLBVls.zg8NPpFCQ2iv7BzH0DzSAYTyze7mReUPQ; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgxMzU2MzMsImNyZWF0ZWQiOjE3NzgwNDkyMzMsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgxMzU2MzMsImlhdCI6MTc3ODA0OTIzMywic3ViIjoiTV9JNFZBN0ZFNlIifQ.ZzNBMANLytxxy48rBSCrhblDZJBGljLqO2DRYYeRRhU; TawkConnectionTime=0; twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1778049727611%7D"
+# 🟢 আপনাদের দেওয়া একদম ফ্রেশ Cookie
+MNIT_COOKIE = "cf_clearance=ILpj_sPXsCY.6lU2Z9pTAeMBrFIYHijryQc3w_fLVk8-1778050422-1.2.1.1-cVwIh2VjSqCV471RgOSIn9CEXMilSDVNn9p1_Q7EMQwITAp9KGFf7Y_68ogCRNBioRwwSGyxmeRq15kmY2lnMg3mTZ7XuCZmmuQPZaRjZ90rY5dlMJSmrS6x8hWwWanPa6GsV4ILMGOM174FA3_QFvoJVokZK0QvsI.sYo23RYn2wMyffGzrNyjr6RTT8xUTW0l8DbQa9QanvHwLp1jz8BDq0DuXdGLggEEO.3YF4zQQ_ymkfDhZxwibCe.TXLMaZUJHvnkzNWxXnIZhebyelZbXv95ZdqwNglOCmWDuFaI15pUNDh9Vwn_2jByiomaKFaKjsHXU0CftIbiK2iX1bg; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgxMzY4MzIsImNyZWF0ZWQiOjE3NzgwNTA0MzIsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgxMzY4MzIsImlhdCI6MTc3ODA1MDQzMiwic3ViIjoiTV9JNFZBN0ZFNlIifQ.AXl7uXUHJtCC87Z6iYia1BRlLatYX0Gm9uabpaaHYEk; twk_idm_key=voVd77a3qanBjs91HhuOi; TawkConnectionTime=0; twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5rtI1DBXbfg9clSSSnihv47mLuGJSa2VyRZk2db9EAJnufdxbwP2izEkQtS2oEDxi8dbdNAteM8CrelxX9WMdm12gPCxyGtlkVkx4UG5gpvy3hMsRwMJAI4%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1778050449590%7D"
 
 # ======================== Data Fetching Logic ========================
 async def fetch_mnit(client):
@@ -32,7 +32,6 @@ async def fetch_mnit(client):
         response = await client.get(MNIT_API_URL, headers=headers, timeout=15.0)
         if response.status_code == 200:
             data = response.json()
-            # API রেসপন্স ফরম্যাট অনুযায়ী logs ডাটা ফিল্টার করা
             logs = data.get("data", {}).get("logs", [])
             if logs:
                 for l in logs: 
@@ -60,7 +59,7 @@ async def get_logs():
 def read_root():
     return HTMLResponse(content=INDEX_HTML)
 
-# ======================== UI HTML (যেমনে ছিল তেমনই রাখা হয়েছে) ========================
+# ======================== ULTIMATE PREMIUM UI (SINGLE PANEL) ========================
 INDEX_HTML = """
 <!DOCTYPE html>
 <html lang="en">
