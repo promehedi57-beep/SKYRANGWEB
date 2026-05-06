@@ -8,10 +8,10 @@ app = FastAPI()
 # ======================== API কনফিগারেশন ========================
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
 
-# 🟢 আপনাদের দেওয়া একদম ফ্রেশ Mauthtoken
+# আপনার দেওয়া লেটেস্ট Mauthtoken
 MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgxMzY4MzIsImNyZWF0ZWQiOjE3NzgwNTA0MzIsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgxMzY4MzIsImlhdCI6MTc3ODA1MDQzMiwic3ViIjoiTV9JNFZBN0ZFNlIifQ.AXl7uXUHJtCC87Z6iYia1BRlLatYX0Gm9uabpaaHYEk"
 
-# 🟢 আপনাদের দেওয়া একদম ফ্রেশ Cookie
+# আপনার দেওয়া লেটেস্ট Cookie
 MNIT_COOKIE = "cf_clearance=ILpj_sPXsCY.6lU2Z9pTAeMBrFIYHijryQc3w_fLVk8-1778050422-1.2.1.1-cVwIh2VjSqCV471RgOSIn9CEXMilSDVNn9p1_Q7EMQwITAp9KGFf7Y_68ogCRNBioRwwSGyxmeRq15kmY2lnMg3mTZ7XuCZmmuQPZaRjZ90rY5dlMJSmrS6x8hWwWanPa6GsV4ILMGOM174FA3_QFvoJVokZK0QvsI.sYo23RYn2wMyffGzrNyjr6RTT8xUTW0l8DbQa9QanvHwLp1jz8BDq0DuXdGLggEEO.3YF4zQQ_ymkfDhZxwibCe.TXLMaZUJHvnkzNWxXnIZhebyelZbXv95ZdqwNglOCmWDuFaI15pUNDh9Vwn_2jByiomaKFaKjsHXU0CftIbiK2iX1bg; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgxMzY4MzIsImNyZWF0ZWQiOjE3NzgwNTA0MzIsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgxMzY4MzIsImlhdCI6MTc3ODA1MDQzMiwic3ViIjoiTV9JNFZBN0ZFNlIifQ.AXl7uXUHJtCC87Z6iYia1BRlLatYX0Gm9uabpaaHYEk; twk_idm_key=voVd77a3qanBjs91HhuOi; TawkConnectionTime=0; twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5rtI1DBXbfg9clSSSnihv47mLuGJSa2VyRZk2db9EAJnufdxbwP2izEkQtS2oEDxi8dbdNAteM8CrelxX9WMdm12gPCxyGtlkVkx4UG5gpvy3hMsRwMJAI4%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1778050449590%7D"
 
 # ======================== Data Fetching Logic ========================
@@ -26,6 +26,9 @@ async def fetch_mnit(client):
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
+        "Sec-Ch-Ua": '"Chromium";v="139", "Not;A=Brand";v="99"',
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": '"Android"',
         "Priority": "u=1,i"
     }
     try:
@@ -38,9 +41,11 @@ async def fetch_mnit(client):
                     l['sys_node'] = "mnit"
                 return logs[:100] 
         else:
-            print(f"API Error: Status {response.status_code}")
+            # যদি ক্লাউডফ্লেয়ার ব্লক করে, তাহলে কনসোলে এই মেসেজ প্রিন্ট হবে
+            print(f"❌ API Error: Status {response.status_code}")
+            print(f"Server Response: {response.text[:200]}...") # প্রথম ২০০ অক্ষর প্রিন্ট করবে
     except Exception as e:
-        print(f"Error fetching data: {e}")
+        print(f"❌ Error fetching data: {e}")
         pass
     return []
 
@@ -48,6 +53,7 @@ async def fetch_mnit(client):
 @app.get("/api/logs")
 async def get_logs():
     try:
+        # http2=True ক্লাউডফ্লেয়ার বাইপাস করতে কিছুটা সাহায্য করে
         async with httpx.AsyncClient(http2=True) as client:
             mnit_logs = await fetch_mnit(client)
             return mnit_logs if mnit_logs else []
@@ -59,7 +65,7 @@ async def get_logs():
 def read_root():
     return HTMLResponse(content=INDEX_HTML)
 
-# ======================== ULTIMATE PREMIUM UI (SINGLE PANEL) ========================
+# ======================== ULTIMATE PREMIUM UI ========================
 INDEX_HTML = """
 <!DOCTYPE html>
 <html lang="en">
