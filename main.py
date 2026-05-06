@@ -5,32 +5,41 @@ import asyncio
 
 app = FastAPI()
 
-# ======================== API কনফিগারেশন ========================
+# ======================== API কনফিগারেশন (আপডেটেড) ========================
 MNIT_API_URL = "https://x.mnitnetwork.com/mapi/v1/mdashboard/console/info"
 
-# 🟢 আপনার দেওয়া ফ্রেশ Mauthtoken
-MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgwMzk2NzAsImNyZWF0ZWQiOjE3Nzc5NTMyNzAsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgwMzk2NzAsImlhdCI6MTc3Nzk1MzI3MCwic3ViIjoiTV9JNFZBN0ZFNlIifQ.Y-RqkNbbSP2dxl51gIQKpqNcULjD3Yo4HjdWw3X1CQY"
+# আপনার দেওয়া লেটেস্ট Mauthtoken
+MNIT_MAUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgxMzU2MzMsImNyZWF0ZWQiOjE3NzgwNDkyMzMsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgxMzU2MzMsImlhdCI6MTc3ODA0OTIzMywic3ViIjoiTV9JNFZBN0ZFNlIifQ.ZzNBMANLytxxy48rBSCrhblDZJBGljLqO2DRYYeRRhU"
 
-# 🟢 আপনার দেওয়া ফ্রেশ Cookie
-MNIT_COOKIE = "twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1777563105639%7D; cf_clearance=DHeY3AMvUvZAc5lTp.byupTB9L_jwcSwjhyB2riMbws-1777953267-1.2.1.1-29YFxz3gZ3jMOIoiujKVdxE_ZQavd0ttw.b0qkuu1VkLOg6UkDgBZNrgbvINcg6JKZM6wnpYzdaw9ge91hwmiDfbCiy5REre_EV5ROgS_2VkEdntGV_WlMp1nG87Us3VSvDq5ed__E4VfQvoWcK0DHM.7ehsZ_.MT0qRL4kcLzfhHTMAD9Yksg5Y7K9yRUwB5QEpI15xj4LcxAuCOO3VCQnHNzsyzenUo8mLyrTDFsICbQ4f6rWvt9Wlezfe6MqdsH6yTAuFhz8uG7AfrLrA_WmLUF.nHK0jbEnOdEmeBcYASUWDAIWazsjNbFv6ivRvFp4ybbDud14UYr0xNj78xA; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgwMzk2NzAsImNyZWF0ZWQiOjE3Nzc5NTMyNzAsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgwMzk2NzAsImlhdCI6MTc3Nzk1MzI3MCwic3ViIjoiTV9JNFZBN0ZFNlIifQ.Y-RqkNbbSP2dxl51gIQKpqNcULjD3Yo4HjdWw3X1CQY"
+# আপনার দেওয়া লেটেস্ট Cookie
+MNIT_COOKIE = "twk_uuid_681787a55d55ef191a9da720=%7B%22uuid%22%3A%221.Ws5n7Z9TFAuFmn89IftNfqr7apt0Moli6kmhQZL2S4HLsUF8GsCmFPJAYMA6Q5VEs7GKl7dvAPiXMFNqbVsFjOv90Mh04G1Dg38hE16e5hXRKKdLIdaWD1pyT%22%2C%22version%22%3A3%2C%22domain%22%3A%22mnitnetwork.com%22%2C%22ts%22%3A1778003799040%7D; cf_clearance=yEWEeLFA5H_AInnsE9d7Yx23QHfA9oVkCzinLQ7ytAU-1778049230-1.2.1.1-awsv246_.euItC16NvLKGUYVKN.ZQFAgT64jjxn0vQtnNF9Bu.pRFVOtVtkTwCfO.njwAKiIv1Cgkbf7urCRIb1QTqhTfDFAfHXz8fb8bLk6L6tKTvkjvTM1QDewfnDrcoEhjsXAjjyyDq24253euf0ALGtdu4jEqY07CWLwPk_lbO38MKqltu0BWE7JHZTy4Oz5_e9x8RMfuxJfpe0Zd9Pamq_Z9N5OsynoTrJ3D9bjHxMBhusHfAtTbNs.IVfN8jg5FCKHNbDGDtwPXrvTss7xZmfdxyYcj8U_otpz7IMndiCLBVls.zg8NPpFCQ2iv7BzH0DzSAYTyze7mReUPQ; mauthtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJNX0k0VkE3RkU2UiIsInJvbGUiOiJ1c2VyIiwiYWNjZXNzX3BhdGgiOlsiL2Rhc2hib2FyZCJdLCJleHBpcnkiOjE3NzgxMzU2MzMsImNyZWF0ZWQiOjE3NzgwNDkyMzMsIjJvbzkiOiJNc0giLCJleHAiOjE3NzgxMzU2MzMsImlhdCI6MTc3ODA0OTIzMywic3ViIjoiTV9JNFZBN0ZFNlIifQ.ZzNBMANLytxxy48rBSCrhblDZJBGljLqO2DRYYeRRhU"
 
 # ======================== Data Fetching Logic ========================
 async def fetch_mnit(client):
     headers = {
         "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0",
-        "Accept": "application/json",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
         "Mauthtoken": MNIT_MAUTH_TOKEN,
         "Cookie": MNIT_COOKIE,
-        "Referer": "https://x.mnitnetwork.com/mdashboard/console"
+        "Referer": "https://x.mnitnetwork.com/mdashboard/console",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "Priority": "u=1,i"
     }
     try:
-        response = await client.get(MNIT_API_URL, headers=headers, timeout=10.0)
+        response = await client.get(MNIT_API_URL, headers=headers, timeout=15.0)
         if response.status_code == 200:
             data = response.json()
+            # API রেসপন্স ফরম্যাট অনুযায়ী logs ডাটা ফিল্টার করা
             logs = data.get("data", {}).get("logs", [])
             if logs:
-                for l in logs: l['sys_node'] = "mnit"
+                for l in logs: 
+                    l['sys_node'] = "mnit"
                 return logs[:100] 
+        else:
+            print(f"API Error: Status {response.status_code}")
     except Exception as e:
         print(f"Error fetching data: {e}")
         pass
@@ -40,7 +49,7 @@ async def fetch_mnit(client):
 @app.get("/api/logs")
 async def get_logs():
     try:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(http2=True) as client:
             mnit_logs = await fetch_mnit(client)
             return mnit_logs if mnit_logs else []
     except Exception:
@@ -51,7 +60,7 @@ async def get_logs():
 def read_root():
     return HTMLResponse(content=INDEX_HTML)
 
-# ======================== ULTIMATE PREMIUM UI (SINGLE PANEL) ========================
+# ======================== UI HTML (যেমনে ছিল তেমনই রাখা হয়েছে) ========================
 INDEX_HTML = """
 <!DOCTYPE html>
 <html lang="en">
